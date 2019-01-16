@@ -1,0 +1,13 @@
+h1{
+	color:orange;
+}
+img{
+	width:250px;
+	height:200px;
+}
+.box1{
+	border: black 1px solid;
+}
+.box2{
+	border: orange 3px solid;
+}
