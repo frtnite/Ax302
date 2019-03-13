@@ -32,12 +32,12 @@ function create(){
 	scoretext = game.add.text(420,560, score, style);
 
 	lifelabel = game.add.text(10,5, "Lives", style);
-	lifetext = game.add.text(120,5,Life, style);
+	lifetext = game.add.text(120,5,life, style);
 
 	player = game.add.sprite(32, 400, 'dude')
 
-	player.animations.add('left'[0,1,2,3],10,true);
-	player.animations.add('right'[5,6,7,8],10,true);
+	player.animations.add('left',[0,1,2,3],10,true);
+	player.animations.add('right',[5,6,7,8],10,true);
 	game.physics.arcade.enable(player);
 	player.body.brounce.y = 0.2;
 	player.body.gravity.y = 300;
@@ -56,7 +56,7 @@ function create(){
 	stars.enableBody = true;
 
 	for(var i = 0; i < 12; i++){
-		var star = star.create(i * 70, 0, 'star');
+		var star = stars.create(i * 70, 0, 'star');
 		star.body.gravity.y = 200
 		star.body.bounce.y = 0.7 + Math.random() *0.2;
 	}
@@ -66,69 +66,69 @@ function create(){
 }
 	
 
-	function update(){
-		game.physics.arcade.collide(player, platforms);
-		game.physics.arcade.collide(enemy1, platforms);
-		game.physics.arcade.collide(stars, platforms);
+function update(){
+	game.physics.arcade.collide(player, platforms);
+	game.physics.arcade.collide(enemy1, platforms);
+	game.physics.arcade.collide(stars, platforms);
 
-		player.body.velocity.x = 0;
+	player.body.velocity.x = 0;
 
-		if(cursors.left.isDown){
-			player.body.velocity.x = -150;
-			player.animations.play('left');
-		}else if(cursors.right.isDown){
-			player.body.velocity.x = 150;
-			player.animations.play('right');
-		}else {
- 			player.animations.stop();
- 			player.frame = 4;
-		}
-
-		if(cursors.up.isDown && player.body.touching.down){
-			player.body.velocity.y = -300;
-		}
-
-		game.physics.arcade.overlap(player, enemy1, loseLife);
-		game.physics.arcade.overlap(player, stars, collectStar);
-
-		moveEnemy();
-
-		if(life < 0){
-			endGame();
-		}
-	
+	if(cursors.left.isDown){
+		player.body.velocity.x = -150;
+		player.animations.play('left');
+	}else if(cursors.right.isDown){
+		player.body.velocity.x = 150;
+		player.animations.play('right');
+	}else {
+			player.animations.stop();
+			player.frame = 4;
 	}
 
-	function collectStar(player,star){
-		score = score + 1;
-		scoretext.setText(score);
-		star.kill();
-		star.reset(Math.floor(Math.random()* 750))   ;
+	if(cursors.up.isDown && player.body.touching.down){
+		player.body.velocity.y = -300;
 	}
 
-	function loseLife(player,enemy){
-		life -=1;
-		lifetext.setLifea(life);
+	game.physics.arcade.overlap(player, enemy1, loseLife);
+	game.physics.arcade.overlap(player, stars, collectStar);
 
-		enemy.kill();
-		enemy.rest(10,20);
-		}
+	moveEnemy();
 
-		function endGame(){
-			player.kill();
-			scorelabel.text = "GAME OVER! Your Score: " + score;
-			scoretext.visible = false;
-			lifelabel.visible = false;
-			lifetext .visible = false; 
-		}
+	if(life < 0){
+		endGame();
+	}
 
-		function moveEnemy(){
-			if(enemy1.cx > 759){
-				enemy1.body.velocity.x = -120;
-				enemy1.animations.play('left');
-			}else if(enemy1.x < 405){
-				enemy1.body.velocity.x = 120;
-				enemy1.animations.play('right');
-			}
-		}
+}
+
+function collectStar(player,star){
+	score = score + 1;
+	scoretext.setText(score);
+	star.kill();
+	star.reset(Math.floor(Math.random()* 750),0);
+}
+
+function loseLife(player,enemy){
+	life -=1;
+	lifetext.setLife(life);
+
+	enemy.kill();
+	enemy.reset(10,20);
+}
+
+function endGame(){
+	player.kill();
+	scorelabel.text = "GAME OVER! Your Score: " + score;
+	scoretext.visible = false;
+	lifelabel.visible = false;
+	lifetext.visible = false; 
+}
+
+function moveEnemy(){
+	if(enemy1.x > 759){
+		enemy1.body.velocity.x = -120;
+		enemy1.animations.play('left');
+	}else if(enemy1.x < 405){
+		enemy1.body.velocity.x = 120;
+		enemy1.animations.play('right');
+	}
+}
 
