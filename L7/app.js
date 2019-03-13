@@ -3,7 +3,7 @@ var life = 3;
 var score = 0;
 
 function preload(){
-	game.load.image('sky', 'assets/sky.png');
+	game.load.image('sky','assets/sky.png');
 	game.load.image('ground','assets/platform.png');
 	game.load.image('star','asset/star.png');
 	game.load.spritesheet('dude','assets/dude.png', 32, 48);
